@@ -24,8 +24,8 @@ public class Presenter {
     public void printHeaderInfo(int[] headerInfo) {
         view.showMessage("Tipo de fichero \"BM\": " + headerInfo[0]);
         view.showMessage("Tamaño del archivo: " + headerInfo[1]);
-        view.showMessage("Reservado: " + headerInfo[2]);
-        view.showMessage("Reservado: " + headerInfo[3]);
+        view.showMessage("Reservado1: " + headerInfo[2]);
+        view.showMessage("Reservado2: " + headerInfo[3]);
         view.showMessage("Inicio de los datos de la imagen: " + headerInfo[4]);
         view.showMessage("Tamaño de la cabezara del bitmap: " + headerInfo[5]);
         view.showMessage("Anchura (pixeles): " + headerInfo[6]);
