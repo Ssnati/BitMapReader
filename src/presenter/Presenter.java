@@ -12,12 +12,11 @@ public class Presenter {
     public Presenter() {
         bitmap = new BitMap();
         view = new View();
-        int[] headerInfo;
         try {
-            headerInfo = bitmap.readBitmap();
+            int[] headerInfo = bitmap.readBitmap();
             printHeaderInfo(headerInfo);
         } catch (IOException e) {
-            e.printStackTrace();
+            view.showMessage(e.getMessage());
         }
     }
 
