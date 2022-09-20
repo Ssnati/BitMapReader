@@ -14,7 +14,7 @@ public class Presenter {
         view = new View();
         int[] headerInfo;
         try {
-            headerInfo = bitmap.readBitmap("image.bmp");
+            headerInfo = bitmap.readBitmap();
             printHeaderInfo(headerInfo);
         } catch (IOException e) {
             e.printStackTrace();
