@@ -1,16 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9e05a308-4859-4d3e-8a25-2daf9b1561c7" name="Changes" comment="&quot;Añadiendo workspace.xml&quot;">
+    <list default="true" id="9e05a308-4859-4d3e-8a25-2daf9b1561c7" name="Changes" comment="&quot;&quot;">
+      <change afterPath="$PROJECT_DIR$/src/presenter/Presenter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/view/View.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Bitmap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/BitMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/Test.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JsbtTreeLayoutManager">
+    <layout place="tools.popupGrunt">
+      <scroll-view-position x="0" y="0" />
+    </layout>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -26,7 +43,9 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "nodejs_package_manager_path": "npm"
+    "last_opened_file_path": "C:/Users/ADMIN/Documents/Intellj Project/BitMapReader",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.keymap"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -34,6 +53,26 @@
       <recent name="C:\Users\ADMIN\Documents\Intellj Project\BitMapReader" />
       <recent name="C:\Users\ADMIN\Documents\Intellj Project\BitMapReader\src" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Presenter" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="presenter.Presenter" />
+      <module name="BitMapReader" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="presenter.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Presenter" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -44,6 +83,11 @@
       <option name="presentableId" value="Default" />
       <updated>1663522403644</updated>
       <workItem from="1663522405723" duration="912000" />
+      <workItem from="1663523327529" duration="694000" />
+      <workItem from="1663564734995" duration="371000" />
+      <workItem from="1663605777110" duration="2877000" />
+      <workItem from="1663627750993" duration="20000" />
+      <workItem from="1663640129635" duration="3230000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;Actualizacion del proyecto, Java 18(Creo)&quot;">
       <created>1663522591567</created>
@@ -80,5 +124,9 @@
     <MESSAGE value="&quot;Actualizacion del proyecto, Java 18(Creo)&quot;" />
     <MESSAGE value="&quot;Añadiendo workspace.xml&quot;" />
     <option name="LAST_COMMIT_MESSAGE" value="&quot;Añadiendo workspace.xml&quot;" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

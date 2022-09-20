@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
-public class Bitmap {
+public class BitMap {
 
 	public int[] readBitmap(String path) throws IOException {
 		FileInputStream file = new FileInputStream(path);
