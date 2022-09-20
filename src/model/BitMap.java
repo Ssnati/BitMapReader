@@ -2,108 +2,81 @@ package model;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.util.Arrays;
 
 public class BitMap {
 
     public int[] readBitmap() throws IOException {
         FileInputStream file = new FileInputStream("image.bmp");
-        byte[] headerBytes = new byte[56];
+        byte[] headerBytes = new byte[54];
+        int[] headerInfo = new int[16];
         file.read(headerBytes);
         file.close();
-        char[] headerInt = byteArrayToIntArray(headerBytes);
-        toHex(headerInt);
-
-		byte[] bfTypeBytes = Arrays.copyOfRange(headerBytes, 0, 2);
-        short bfType = bytesToShort(reverseArray(bfTypeBytes));
-        byte[] bfSizeBytes = Arrays.copyOfRange(headerBytes, 2, 6);
-        int bfSize = bytesToShort(reverseArray(bfSizeBytes));
-        byte[] bfReserved1Bytes = Arrays.copyOfRange(headerBytes, 6, 8);
-        short bfReserved1 = bytesToShort(reverseArray(bfReserved1Bytes));
-        byte[] bfReserved2Bytes = Arrays.copyOfRange(headerBytes, 8, 10);
-        short bfReserved2 = bytesToShort(reverseArray(bfReserved2Bytes));
-        byte[] bfOffBitsBytes = Arrays.copyOfRange(headerBytes, 10, 14);
-        int bfOffBits = bytesToInt(reverseArray(bfOffBitsBytes));
-        byte[] biSizeBytes = Arrays.copyOfRange(headerBytes, 14, 18);
-        int biSize = bytesToInt(reverseArray(biSizeBytes));
-        byte[] biWidthBytes = Arrays.copyOfRange(headerBytes, 18, 22);
-        int biWidth = bytesToInt(reverseArray(biWidthBytes));
-        byte[] biHeightBytes = Arrays.copyOfRange(headerBytes, 22, 26);
-        int biHeight = bytesToInt(reverseArray(biHeightBytes));
-        byte[] biPlanesBytes = Arrays.copyOfRange(headerBytes, 26, 28);
-        short biPlanes = bytesToShort(reverseArray(biPlanesBytes));
-        byte[] biBitCountBytes = Arrays.copyOfRange(headerBytes, 28, 30);
-        short biBitCount = bytesToShort(reverseArray(biBitCountBytes));
-        byte[] biCompressionBytes = Arrays.copyOfRange(headerBytes, 30, 34);
-        int biCompression = bytesToInt(reverseArray(biCompressionBytes));
-        byte[] biSizeImageBytes = Arrays.copyOfRange(headerBytes, 34, 38);
-        int biSizeImage = bytesToInt(reverseArray(biSizeImageBytes));
-        byte[] biXPelsPerMeterBytes = Arrays.copyOfRange(headerBytes, 38, 42);
-        int biXPelsPerMeter = bytesToInt(reverseArray(biXPelsPerMeterBytes));
-        byte[] biYPelsPerMeterBytes = Arrays.copyOfRange(headerBytes, 42, 46);
-        int biYPelsPerMeter = bytesToInt(reverseArray(biYPelsPerMeterBytes));
-        byte[] biClrUsedBytes = Arrays.copyOfRange(headerBytes, 46, 50);
-        int biClrUsed = bytesToInt(reverseArray(biClrUsedBytes));
-        byte[] biCrlImportantBytes = Arrays.copyOfRange(headerBytes, 50, 54);
-        int biCrlImportant = bytesToInt(reverseArray(biCrlImportantBytes));
-        int[] headerInfo = new int[16];
-        headerInfo[0] = bfType;
-        headerInfo[1] = bfSize;
-        headerInfo[2] = bfReserved1;
-        headerInfo[3] = bfReserved2;
-        headerInfo[4] = bfOffBits;
-        headerInfo[5] = biSize;
-        headerInfo[6] = biWidth;
-        headerInfo[7] = biHeight;
-        headerInfo[8] = biPlanes;
-        headerInfo[9] = biBitCount;
-        headerInfo[10] = biCompression;
-        headerInfo[11] = biSizeImage;
-        headerInfo[12] = biXPelsPerMeter;
-        headerInfo[13] = biYPelsPerMeter;
-        headerInfo[14] = biClrUsed;
-        headerInfo[15] = biCrlImportant;
+        int[] headerInt = byteArrayToIntArray(headerBytes);
+        int[] bfTypeBytes = cutArray(headerInt, 0, 1);
+        headerInfo[0]= getRealValue(bfTypeBytes);
+        int[] bfSizeBytes = cutArray(headerInt, 2, 5);
+        headerInfo[1] = getRealValue(bfSizeBytes);
+        int[] bfReserved1Bytes = cutArray(headerInt, 6, 7);
+        headerInfo[2]= getRealValue((bfReserved1Bytes));
+        int[] bfReserved2Bytes = cutArray(headerInt, 8, 9);
+        headerInfo[3] = getRealValue((bfReserved2Bytes));
+        int[] bfOffBitsBytes = cutArray(headerInt, 10, 13);
+        headerInfo[4] = getRealValue((bfOffBitsBytes));
+        int[] biSizeBytes = cutArray(headerInt, 14, 17);
+        headerInfo[5] = getRealValue((biSizeBytes));
+        int[] biWidthBytes = cutArray(headerInt, 18, 21);
+        headerInfo[6] = getRealValue((biWidthBytes));
+        int[] biHeightBytes = cutArray(headerInt, 22, 25);
+        headerInfo[7] = getRealValue((biHeightBytes));
+        int[] biPlanesBytes = cutArray(headerInt, 26, 27);
+        headerInfo[8] = getRealValue((biPlanesBytes));
+        int[] biBitCountBytes = cutArray(headerInt, 28, 29);
+        headerInfo[9] = getRealValue((biBitCountBytes));
+        int[] biCompressionBytes = cutArray(headerInt, 30, 33);
+        headerInfo[10] = getRealValue((biCompressionBytes));
+        int[] biSizeImageBytes = cutArray(headerInt, 34, 37);
+        headerInfo[11] = getRealValue((biSizeImageBytes));
+        int[] biXPelsPerMeterBytes = cutArray(headerInt, 38, 41);
+        headerInfo[12] = getRealValue((biXPelsPerMeterBytes));
+        int[] biYPelsPerMeterBytes = cutArray(headerInt, 42, 45);
+        headerInfo[13] = getRealValue((biYPelsPerMeterBytes));
+        int[] biClrUsedBytes = cutArray(headerInt, 46, 49);
+        headerInfo[14] = getRealValue((biClrUsedBytes));
+        int[] biCrlImportantBytes = cutArray(headerInt, 50, 53);
+        headerInfo[15] = getRealValue((biCrlImportantBytes));
         return headerInfo;
     }
 
-    private byte[] reverseArray(byte[] array) {
-        byte[] reverseArray = new byte[array.length];
-        for (int i = 0, j = array.length - 1; i < array.length; i++, j--) {
-            reverseArray[i] = array[j];
+    private int[] cutArray(int[] arrayToCut, int from, int to) {
+        int[] newLength = new int[(to - from) + 1];
+        for (int i = 0; i < newLength.length; i++) {
+            newLength[i] = arrayToCut[from++];
         }
-        return reverseArray;
+        return newLength;
     }
 
-    private int bytesToInt(byte[] bytes) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-        return byteBuffer.getInt();
-    }
-
-    private short bytesToShort(byte[] bytes) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-        return byteBuffer.getShort();
-    }
-
-    public void toHex(char[] chars){
-        String hexNumber;
-        for (int i: chars) {
-            hexNumber = (Integer.toHexString(i));
-            System.out.println(hexNumber);
+    public int getRealValue(int[] array) {
+        double pow = 0;
+        for (int i = 0; i < array.length; i++) {
+            pow = pow + array[i] * Math.pow(256, i);
         }
+        return (int) pow;
     }
-    public char[] byteArrayToIntArray(byte[] byteArray) {
 
-        char[] chars = new char[byteArray.length];
-        int i = 0;
-        for (byte b : byteArray)
-            if (b < 0) {
-                b = (byte) Math.abs(b);
-                chars[i++] = (char)b;
+    public int[] byteArrayToIntArray(byte[] byteArray) {
+        int[] unsigned = new int[byteArray.length];
+        for (int i = 0; i < byteArray.length; i++) {
+            if (byteArray[i] < 0) {
+                unsigned[i] = unsignedToBytes(byteArray[i]);
             } else {
-                chars[i++] = (char)b;
+                unsigned[i] = byteArray[i];
             }
-        return chars;
+        }
+        return unsigned;
+    }
+
+    public int unsignedToBytes(byte a) {
+        return a + 256;
     }
 
 }
