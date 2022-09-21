@@ -1,20 +1,24 @@
 package model;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class BitMap {
     private byte[] headerBytes;
+    private int[] headerInfo;
+//    private byte[] bodyBytes;
 
-    public int[] readBitmap() throws IOException {
-        FileInputStream file = new FileInputStream("image.bmp");
+    public BitMap(String source) throws IOException {
+        FileInputStream file = new FileInputStream(source);
         headerBytes = new byte[54];
-        int[] headerInfo = new int[16];
+        headerInfo = new int[16];
         file.read(headerBytes);
         file.close();
+    }
+
+    public int[] readBitmap() throws IOException {
         int[] headerInt = byteArrayToIntArray(headerBytes);
         int[] bfTypeBytes = cutArray(headerInt, 0, 1);
         headerInfo[0] = getRealValue(bfTypeBytes);
@@ -53,8 +57,8 @@ public class BitMap {
 
     public int[] cutArray(int[] arrayToCut, int from, int to) {
         int[] newLength = new int[(to - from) + 1];
-        for (int i = 0; i < newLength.length; i++) {
-            newLength[i] = arrayToCut[from++];
+        for (int i = 0; i < newLength.length; i++, from++) {
+            newLength[i] = arrayToCut[from];
         }
         return newLength;
     }
@@ -62,7 +66,7 @@ public class BitMap {
     public int getRealValue(int[] array) {
         double pow = 0;
         for (int i = 0; i < array.length; i++) {
-            pow = pow + array[i] * Math.pow(256, i);
+            pow += array[i] * Math.pow(256, i);
         }
         return (int) pow;
     }
@@ -83,50 +87,48 @@ public class BitMap {
         return a + 256;
     }
 
-    private List<String> toBinaryValues(String binaryValue) {
-        List<String> bytes = new ArrayList<>();
-        boolean end = false;
-        for (int i = 0; !end; i++) {
-            int a = i * 8;
-            int b = ((i + 1) * 8);
-            if (b < binaryValue.length()) {
-                bytes.add(binaryValue.substring(a, b));
-                bytes.set(i, reverseString(bytes.get(i)));
-            } else {
-                bytes.add(binaryValue.substring(a));
-                bytes.set(i, reverseString(bytes.get(i)));
-                end = true;
-            }
+    public byte[] newHeader(int newValue) {
+        byte[] newHeaderBytes = Arrays.copyOf(headerBytes, headerBytes.length);
+        int[] newHeaderInfo = Arrays.copyOf(headerInfo, headerBytes.length);
+
+        int pictureLength = newValue *newHeaderInfo[6]*3;//Pos 6 ancho de la imagen
+        int fileLength = pictureLength+54;
+
+        int[] hightSize = decimalToByte(newValue);//Altura de la imagen 22 - 25
+        int[] pictureSize = decimalToByte(pictureLength);//Tamaño de la imagen 34 - 37
+        int[] fileSize = decimalToByte(fileLength);//Tamaño del archivo 2 - 5
+
+        //Metodo para dar nuevo tamaño de archivo
+        for (int i = 2, pos = 0; i < 5; i++, pos++) {
+            newHeaderBytes[i] = (byte) fileSize[pos];
         }
-        return bytes;
+
+        //Metodo para dar nuevo tamaño de imagen
+        for (int i = 34, pos = 0; i < 37; i++, pos++) {
+            newHeaderBytes[i] = (byte) pictureSize[pos];
+        }
+
+        //Metodo para dar nuevo tamaño de altura
+        for (int i = 22, pos = 0; i < 25; i++, pos++) {
+            newHeaderBytes[i] = (byte) hightSize[pos];
+        }
+
+        return newHeaderBytes;
     }
 
-    private String reverseString(String chain) {
-        StringBuilder auxString = new StringBuilder(chain);
-        chain = auxString.reverse().toString();
-        return chain;
-    }
-
-    public byte[] newHeaderValue(int newValue) {
-        byte[] newHeader = Arrays.copyOf(headerBytes, headerBytes.length);
-        String binaryValue = Integer.toBinaryString(newValue);
-        binaryValue = reverseString(binaryValue);
-        List<String> binaryList = toBinaryValues(binaryValue);
-        long[] bytes = new long[4];
-        for (int i = bytes.length; i > 0; i--) {
-            if (i>binaryList.size()) {
-                bytes[i-1] = 0;
-            }else {
-                bytes[i-1] = Long.parseLong(binaryList.get(i-1), 2);
-            }
+    public int[] decimalToByte(int newValue){
+        int[] newValues = new int[4];
+        for (int i = 0; i < newValues.length; i++) {
+            newValues[i] = newValue % 256;
+            newValue /= 256;
         }
-        int pos = 0;
-        for (int i = 2; i < 5; i++) {
-            newHeader[i] = (byte) bytes[pos];
-            pos++;
-        }
-        return newHeader;
+        return newValues;
     }
+//
+//    public void createNewImage(){
+//        byte[] newHeaderBytesOriginal = Arrays.copyOf(headerBytes, headerBytes.length);
+//        byte[] newHeaderBytesCopy = newHeader(768/2);
+//    }
 
     public byte[] getHeaderBytes() {
         return headerBytes;

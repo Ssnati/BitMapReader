@@ -11,19 +11,19 @@ public class Presenter {
     private View view;
 
     public Presenter() {
-        bitmap = new BitMap();
         view = new View();
         int[] headerInfo;
         try {
+            bitmap = new BitMap("image.bmp");
             headerInfo = bitmap.readBitmap();
             printHeaderInfo(headerInfo);
         } catch (IOException e) {
-            e.printStackTrace();
+            view.showMessage(e.getMessage());
         }
     }
 
     public void printHeaderInfo(int[] headerInfo) {
-        byte[] newHeader = bitmap.newHeaderValue(2359350/2);
+        byte[] newHeader = bitmap.newHeader(768/2);
         view.showMessage("Tipo de fichero \"BM\": " + headerInfo[0]);
         view.showMessage("Tamaño del archivo: " + headerInfo[1]);
         view.showMessage("Valores de la cabecera original:           " + Arrays.toString(bitmap.getHeaderBytes()));
