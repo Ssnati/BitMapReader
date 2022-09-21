@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9e05a308-4859-4d3e-8a25-2daf9b1561c7" name="Changes" comment="&quot;Modificaciones de estilo propio + MVP&quot;">
+    <list default="true" id="ad8ee3a3-d09b-456e-ac44-49966f933edc" name="Changes" comment="&quot;Modificaciones de estilo propio + MVP&quot;">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/image.bmp" beforeDir="false" afterPath="$PROJECT_DIR$/image.bmp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/BitMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/BitMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/presenter/Presenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/presenter/Presenter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +52,20 @@
       <recent name="C:\Users\ADMIN\Documents\Intellj Project\BitMapReader\src" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Presenter">
+    <configuration name="BitMap" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="model.BitMap" />
+      <module name="BitMapReader" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Presenter" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="presenter.Presenter" />
       <module name="BitMapReader" />
@@ -69,6 +82,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Presenter" />
+        <item itemvalue="Application.BitMap" />
       </list>
     </recent_temporary>
   </component>
@@ -125,17 +139,6 @@
     <MESSAGE value="&quot;Actualizacion del proyecto, Java 18(Creo)&quot;" />
     <MESSAGE value="&quot;Añadiendo workspace.xml&quot;" />
     <option name="LAST_COMMIT_MESSAGE" value="&quot;Añadiendo workspace.xml&quot;" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/model/BitMap.java</url>
-          <line>68</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

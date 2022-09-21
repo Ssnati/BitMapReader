@@ -1,6 +1,7 @@
 package presenter;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import model.*;
 import view.*;
@@ -22,8 +23,11 @@ public class Presenter {
     }
 
     public void printHeaderInfo(int[] headerInfo) {
+        byte[] newHeader = bitmap.newHeaderValue(2359350/2);
         view.showMessage("Tipo de fichero \"BM\": " + headerInfo[0]);
         view.showMessage("Tamaño del archivo: " + headerInfo[1]);
+        view.showMessage("Valores de la cabecera original:           " + Arrays.toString(bitmap.getHeaderBytes()));
+        view.showMessage("Valores de la cabecera con el nuevo valor: " + Arrays.toString(newHeader));
         view.showMessage("Reservado: " + headerInfo[2]);
         view.showMessage("Reservado: " + headerInfo[3]);
         view.showMessage("Inicio de los datos de la imagen: " + headerInfo[4]);
