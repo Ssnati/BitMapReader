@@ -72,12 +72,8 @@ public class BitMap {
         return headerInfo;
     }
 
-<<<<<<< HEAD
 
-    private int[] cutArray(int[] arrayToCut, int from, int to) {
-=======
     public int[] cutArray(int[] arrayToCut, int from, int to) {
->>>>>>> secundaria
         int[] newLength = new int[(to - from) + 1];
         for (int i = 0; i < newLength.length; i++, from++) {
             newLength[i] = arrayToCut[from];

@@ -13,12 +13,9 @@ public class Presenter {
     public Presenter() {
         view = new View();
         try {
-<<<<<<< HEAD
-            int[] headerInfo = bitmap.readBitmap();
-=======
+            int[] headerInfo;
             bitmap = new BitMap("image.bmp");
             headerInfo = bitmap.readBitmap();
->>>>>>> secundaria
             printHeaderInfo(headerInfo);
         } catch (IOException e) {
             view.showMessage(e.getMessage());
@@ -29,15 +26,12 @@ public class Presenter {
         byte[] newHeader = bitmap.newHeader(768/2);
         view.showMessage("Tipo de fichero \"BM\": " + headerInfo[0]);
         view.showMessage("Tamaño del archivo: " + headerInfo[1]);
-<<<<<<< HEAD
         view.showMessage("Reservado1: " + headerInfo[2]);
         view.showMessage("Reservado2: " + headerInfo[3]);
-=======
         view.showMessage("Valores de la cabecera original:           " + Arrays.toString(bitmap.getHeaderBytes()));
         view.showMessage("Valores de la cabecera con el nuevo valor: " + Arrays.toString(newHeader));
         view.showMessage("Reservado: " + headerInfo[2]);
         view.showMessage("Reservado: " + headerInfo[3]);
->>>>>>> secundaria
         view.showMessage("Inicio de los datos de la imagen: " + headerInfo[4]);
         view.showMessage("Tamaño de la cabezara del bitmap: " + headerInfo[5]);
         view.showMessage("Anchura (pixeles): " + headerInfo[6]);
