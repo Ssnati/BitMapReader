@@ -4,7 +4,7 @@
     <list default="true" id="ad8ee3a3-d09b-456e-ac44-49966f933edc" name="Changes" comment="&quot;Algoritmo de modificacion de la cabecera (buenas practicas)&quot;">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/BitMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/BitMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/presenter/Presenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/presenter/Presenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Pixel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Pixel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +52,7 @@
       <recent name="C:\Users\ADMIN\Documents\Intellj Project\BitMapReader\src" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Presenter">
+  <component name="RunManager" selected="Application.BitMap">
     <configuration name="BitMap" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="model.BitMap" />
       <module name="BitMapReader" />
@@ -81,8 +81,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Presenter" />
         <item itemvalue="Application.BitMap" />
+        <item itemvalue="Application.Presenter" />
       </list>
     </recent_temporary>
   </component>
@@ -105,7 +105,11 @@
       <workItem from="1663708257576" duration="378000" />
       <workItem from="1663765793147" duration="1683000" />
       <workItem from="1663773040796" duration="5836000" />
-      <workItem from="1663780233569" duration="6755000" />
+      <workItem from="1663780233569" duration="7480000" />
+      <workItem from="1663798794525" duration="1017000" />
+      <workItem from="1663800613379" duration="390000" />
+      <workItem from="1663801038272" duration="210000" />
+      <workItem from="1663813776105" duration="12185000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;Actualizacion del proyecto, Java 18(Creo)&quot;">
       <created>1663522591567</created>
@@ -150,6 +154,16 @@
     <MESSAGE value="&quot;Añadiendo workspace.xml&quot;" />
     <MESSAGE value="&quot;Algoritmo de modificacion de la cabecera (buenas practicas)&quot;" />
     <option name="LAST_COMMIT_MESSAGE" value="&quot;Algoritmo de modificacion de la cabecera (buenas practicas)&quot;" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NullPointerException" package="java.lang" />
+          <option name="timeStamp" value="2" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
