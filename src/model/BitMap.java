@@ -12,7 +12,7 @@ public class BitMap {
 
     public BitMap(String source) throws IOException {
         FileInputStream file = new FileInputStream(source);
-        fileOut = new FileOutputStream("archivoCopia.bmp");
+        fileOut = new FileOutputStream("archivoCopia1.bmp");
         headerBytes = new byte[54];
         headerInfo = new int[16];
         file.read(headerBytes);
@@ -107,15 +107,38 @@ public class BitMap {
         return default1;
     }
 
-    public byte[] newHeader(int newValue) {
+    public byte[] newHeader(int newValue, int attributeToModify) {
         byte[] newHeaderBytes = Arrays.copyOf(headerBytes, headerBytes.length);
+        int[] pictureSize;
+        int pictureLength;
+        int[] fileSize;
+        switch (attributeToModify){
+            case 1:
+                pictureLength = newValue * headerInfo[6] * 3;
+                int[] highSize = decimalToByte(newValue);//Altura de la imagen 22 - 25
+                pictureSize = decimalToByte(pictureLength);
+                fileSize = decimalToByte(pictureLength + 54);
 
-        int pictureLength = newValue * headerInfo[6] * 3;//Pos 6 ancho de la imagen
-        int fileLength = pictureLength + 54;
+                //Metodo para dar nuevo tamaño de altura
+                for (int i = 22, pos = 0; i < 25; i++, pos++) {
+                    newHeaderBytes[i] = (byte) highSize[pos];
+                }
+                break;
+            case 2:
+                pictureLength = newValue * headerInfo[7] * 3;
 
-        int[] hightSize = decimalToByte(newValue);//Altura de la imagen 22 - 25
-        int[] pictureSize = decimalToByte(pictureLength);//Tamaño de la imagen 34 - 37
-        int[] fileSize = decimalToByte(fileLength);//Tamaño del archivo 2 - 5
+                int[] widthSize = decimalToByte(newValue);//Altura de la imagen 18 - 21
+                pictureSize = decimalToByte(pictureLength);
+                fileSize = decimalToByte(pictureLength + 54);
+
+                //Metodo para dar nuevo tamaño de altura
+                for (int i = 18, pos = 0; i < 21; i++, pos++) {
+                    newHeaderBytes[i] = (byte) widthSize[pos];
+                }
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + attributeToModify);
+        }
 
         //Metodo para dar nuevo tamaño de archivo
         for (int i = 2, pos = 0; i < 5; i++, pos++) {
@@ -125,11 +148,6 @@ public class BitMap {
         //Metodo para dar nuevo tamaño de imagen
         for (int i = 34, pos = 0; i < 37; i++, pos++) {
             newHeaderBytes[i] = (byte) pictureSize[pos];
-        }
-
-        //Metodo para dar nuevo tamaño de altura
-        for (int i = 22, pos = 0; i < 25; i++, pos++) {
-            newHeaderBytes[i] = (byte) hightSize[pos];
         }
 
         return newHeaderBytes;
@@ -144,7 +162,7 @@ public class BitMap {
         return newValues;
     }
 
-    public byte[] newBody(int newHighValue) {
+    public byte[] newBody(int newHighValue, int attributeToModify) {
         byte[] newBodySize = new byte[newHighValue * headerInfo[6] * 3];
         for (int i = 0; i < newBodySize.length; i++) {
             newBodySize[i] = bodyBytes[i];
@@ -153,8 +171,10 @@ public class BitMap {
     }
 
     public void createNewImage(int widthValue) throws IOException {
-        byte[] newHeader = newHeader(widthValue);
-        byte[] newBody = newBody(widthValue);
+        byte[] newHeader = newHeader(widthValue, 2);
+        System.out.println(Arrays.toString(headerBytes));
+        System.out.println(Arrays.toString(newHeader));
+        byte[] newBody = newBody(widthValue, 1);
 
         byte[] newFileBytes = new byte[newHeader.length+newBody.length];
         for (int totalSize = 0, i = 0; totalSize < newFileBytes.length; totalSize++, i++) {
@@ -174,6 +194,6 @@ public class BitMap {
 
     public static void main(String[] args) throws IOException {
         BitMap bitMap = new BitMap("image.bmp");
-        bitMap.createNewImage(768*2/3);
+        bitMap.createNewImage(1024/2);
     }
 }

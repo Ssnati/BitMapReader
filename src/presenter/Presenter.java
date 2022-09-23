@@ -23,7 +23,7 @@ public class Presenter {
     }
 
     public void printHeaderInfo(int[] headerInfo) {
-        byte[] newHeader = bitmap.newHeader(768/2);
+        byte[] newHeader = bitmap.newHeader(768/2, 1);
         view.showMessage("Tipo de fichero \"BM\": " + headerInfo[0]);
         view.showMessage("Tamaño del archivo: " + headerInfo[1]);
         view.showMessage("Valores de la cabecera original:           " + Arrays.toString(bitmap.getHeaderBytes()));
