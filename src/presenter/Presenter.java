@@ -12,22 +12,35 @@ public class Presenter {
 
     public Presenter() {
         view = new View();
-        int[] headerInfo;
         try {
             bitmap = new BitMap("image.bmp");
-            headerInfo = bitmap.readBitmap();
-            printHeaderInfo(headerInfo);
         } catch (IOException e) {
             view.showMessage(e.getMessage());
         }
     }
 
+    public void run(){
+        try {
+            printHeaderInfo(bitmap.readBitmap());
+            principalMenu();
+        } catch (IOException e) {
+            view.showMessage(e.getMessage());
+        }
+    }
+
+    public void principalMenu() throws IOException {
+        int[] headerInfo = bitmap.getHeaderInfo();
+        switch (view.readInt("Bienvenido, elige la opcion\n1. Modificar el ancho de la imagen\n2 Modificar el alto de la imagen")){
+            case 1:bitmap.createNewImage(view.readInt("Ancho actual de la imagen en pixeles: " + headerInfo[6] + "\nIngresa el nuevo valor del ancho de la imagen"), 2);
+                break;
+            case 2:bitmap.createNewImage(view.readInt("Alto actual de la imagen en pixeles: " + headerInfo[7] + "\nIngresa el nuevo valor del alto de la imagen"), 1);
+                break;
+        }
+    }
+
     public void printHeaderInfo(int[] headerInfo) {
-        byte[] newHeader = bitmap.newHeader(768/2, 1);
         view.showMessage("Tipo de fichero \"BM\": " + headerInfo[0]);
         view.showMessage("Tamaño del archivo: " + headerInfo[1]);
-        view.showMessage("Valores de la cabecera original:           " + Arrays.toString(bitmap.getHeaderBytes()));
-        view.showMessage("Valores de la cabecera con el nuevo valor: " + Arrays.toString(newHeader));
         view.showMessage("Reservado: " + headerInfo[2]);
         view.showMessage("Reservado: " + headerInfo[3]);
         view.showMessage("Inicio de los datos de la imagen: " + headerInfo[4]);
@@ -45,7 +58,7 @@ public class Presenter {
     }
 
     public static void main(String[] args) {
-    new Presenter();
+    new Presenter().run();
     }
 
 }

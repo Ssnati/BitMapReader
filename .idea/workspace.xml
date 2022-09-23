@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ad8ee3a3-d09b-456e-ac44-49966f933edc" name="Changes" comment="&quot;Algoritmo de modificacion de la cabecera (buenas practicas)&quot;">
+    <list default="true" id="ad8ee3a3-d09b-456e-ac44-49966f933edc" name="Changes" comment="&quot;Recortar la imagen de manera horizontal (Aun no funciona)&quot;">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/archivoCopia1.bmp" beforeDir="false" afterPath="$PROJECT_DIR$/archivoCopia1.bmp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/archivoCopia.bmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/archivoCopia1.bmp" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/BitMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/BitMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/presenter/Presenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/presenter/Presenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/View.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/View.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +55,7 @@
       <recent name="C:\Users\ADMIN\Documents\Intellj Project\BitMapReader\src" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.BitMap">
+  <component name="RunManager" selected="Application.Presenter">
     <configuration name="BitMap" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="model.BitMap" />
       <module name="BitMapReader" />
@@ -81,8 +84,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.BitMap" />
         <item itemvalue="Application.Presenter" />
+        <item itemvalue="Application.BitMap" />
       </list>
     </recent_temporary>
   </component>
@@ -110,7 +113,8 @@
       <workItem from="1663800613379" duration="390000" />
       <workItem from="1663801038272" duration="210000" />
       <workItem from="1663813776105" duration="12185000" />
-      <workItem from="1663957741518" duration="789000" />
+      <workItem from="1663957741518" duration="1223000" />
+      <workItem from="1663959176233" duration="3803000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;Actualizacion del proyecto, Java 18(Creo)&quot;">
       <created>1663522591567</created>
@@ -133,7 +137,14 @@
       <option name="project" value="LOCAL" />
       <updated>1663736825797</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="&quot;Recortar la imagen de manera horizontal (Aun no funciona)&quot;">
+      <created>1663958655509</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1663958655509</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -154,7 +165,8 @@
     <MESSAGE value="&quot;Actualizacion del proyecto, Java 18(Creo)&quot;" />
     <MESSAGE value="&quot;Añadiendo workspace.xml&quot;" />
     <MESSAGE value="&quot;Algoritmo de modificacion de la cabecera (buenas practicas)&quot;" />
-    <option name="LAST_COMMIT_MESSAGE" value="&quot;Algoritmo de modificacion de la cabecera (buenas practicas)&quot;" />
+    <MESSAGE value="&quot;Recortar la imagen de manera horizontal (Aun no funciona)&quot;" />
+    <option name="LAST_COMMIT_MESSAGE" value="&quot;Recortar la imagen de manera horizontal (Aun no funciona)&quot;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -165,18 +177,8 @@
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/model/BitMap.java</url>
-          <line>175</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/model/BitMap.java</url>
-          <line>182</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/model/BitMap.java</url>
-          <line>177</line>
-          <option name="timeStamp" value="13" />
+          <line>179</line>
+          <option name="timeStamp" value="14" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -3,13 +3,18 @@ package view;
 import java.util.Scanner;
 
 public class View {
-    private Scanner scanner;
+    private Scanner console;
 
     public View() {
-        scanner = new Scanner(System.in);
+        console = new Scanner(System.in);
     }
 
     public void showMessage(String message){
         System.out.println(message);
+    }
+
+    public int readInt(String message) {
+        System.out.println(message);
+        return console.nextInt();
     }
 }

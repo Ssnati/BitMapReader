@@ -12,7 +12,7 @@ public class BitMap {
 
     public BitMap(String source) throws IOException {
         FileInputStream file = new FileInputStream(source);
-        fileOut = new FileOutputStream("archivoCopia1.bmp");
+        fileOut = new FileOutputStream("Copia" + source);
         headerBytes = new byte[54];
         headerInfo = new int[16];
         file.read(headerBytes);
@@ -22,6 +22,10 @@ public class BitMap {
         pixelsValue = new Pixel[bodyBytes.length / 3];
         pixelsValue = readPixelsImage(bodyBytes);
         file.close();
+    }
+
+    public int[] getHeaderInfo() {
+        return headerInfo;
     }
 
     private Pixel[] readPixelsImage(byte[] bodyBytes) {
@@ -112,7 +116,7 @@ public class BitMap {
         int[] pictureSize;
         int pictureLength;
         int[] fileSize;
-        switch (attributeToModify){
+        switch (attributeToModify) {
             case 1:
                 pictureLength = newValue * headerInfo[6] * 3;
                 int[] highSize = decimalToByte(newValue);//Altura de la imagen 22 - 25
@@ -164,7 +168,7 @@ public class BitMap {
 
     public byte[] newBody(int newValue, int attributeToModify) {
         byte[] newBodySize;
-        switch (attributeToModify){
+        switch (attributeToModify) {
             case 1:
                 newBodySize = new byte[newValue * headerInfo[6] * 3];
                 for (int i = 0; i < newBodySize.length; i++) {
@@ -173,17 +177,12 @@ public class BitMap {
                 break;
             case 2:
                 newBodySize = new byte[newValue * headerInfo[7] * 3];
-                byte[] auxSize = new byte[headerInfo[6]*3];
-                for (int i = 0, counter = 1; i < newBodySize.length; i++) {
-                    if (i==headerInfo[6]*counter*3) {
-                        for (int j = 0; j < newValue*3; j++) {
- int actPos
-                            newBodySize[(j*counter)+j] = auxSize[(j*counter)+j];
-                        }
-                        counter++;
+                int rest = headerInfo[6] - newValue;
+                for (int i = 0, j = 0; j < newBodySize.length; i++, j++) {
+                    if (j != 0 && (j % (newValue * 3) == 0)) {
+                        i = i + (rest) * 3;
                     }
-                    int auxPos = (auxSize.length)*(counter-1);
-                    auxSize[i-(auxPos)] = bodyBytes[i];
+                    newBodySize[j] = bodyBytes[i];
                 }
                 break;
 
@@ -193,20 +192,16 @@ public class BitMap {
         return newBodySize;
     }
 
-    public void createNewImage(int widthValue) throws IOException {
-        byte[] newHeader = newHeader(widthValue, 2);
-        System.out.println(Arrays.toString(headerBytes));
-        System.out.println(Arrays.toString(newHeader));
-        byte[] newBody = newBody(widthValue, 2);
-        System.out.println(bodyBytes.length);
-        System.out.println(newBody.length);
+    public void createNewImage(int newValue, int attributeToModify) throws IOException {
+        byte[] newHeader = newHeader(newValue, attributeToModify);
+        byte[] newBody = newBody(newValue, attributeToModify);
 
-        byte[] newFileBytes = new byte[newHeader.length+newBody.length];
+        byte[] newFileBytes = new byte[newHeader.length + newBody.length];
         for (int totalSize = 0, i = 0; totalSize < newFileBytes.length; totalSize++, i++) {
-            if (totalSize<newHeader.length) {
+            if (totalSize < newHeader.length) {
                 newFileBytes[totalSize] = newHeader[i];
-            }else {
-                newFileBytes[totalSize] = newBody[i -newHeader.length];
+            } else {
+                newFileBytes[totalSize] = newBody[i - newHeader.length];
             }
         }
         fileOut.write(newFileBytes);
@@ -215,10 +210,5 @@ public class BitMap {
 
     public byte[] getHeaderBytes() {
         return headerBytes;
-    }
-
-    public static void main(String[] args) throws IOException {
-        BitMap bitMap = new BitMap("image.bmp");
-        bitMap.createNewImage(1024/2);
     }
 }
