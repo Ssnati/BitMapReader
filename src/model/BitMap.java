@@ -162,10 +162,33 @@ public class BitMap {
         return newValues;
     }
 
-    public byte[] newBody(int newHighValue, int attributeToModify) {
-        byte[] newBodySize = new byte[newHighValue * headerInfo[6] * 3];
-        for (int i = 0; i < newBodySize.length; i++) {
-            newBodySize[i] = bodyBytes[i];
+    public byte[] newBody(int newValue, int attributeToModify) {
+        byte[] newBodySize;
+        switch (attributeToModify){
+            case 1:
+                newBodySize = new byte[newValue * headerInfo[6] * 3];
+                for (int i = 0; i < newBodySize.length; i++) {
+                    newBodySize[i] = bodyBytes[i];
+                }
+                break;
+            case 2:
+                newBodySize = new byte[newValue * headerInfo[7] * 3];
+                byte[] auxSize = new byte[headerInfo[6]*3];
+                for (int i = 0, counter = 1; i < newBodySize.length; i++) {
+                    if (i==headerInfo[6]*counter*3) {
+                        for (int j = 0; j < newValue*3; j++) {
+ int actPos
+                            newBodySize[(j*counter)+j] = auxSize[(j*counter)+j];
+                        }
+                        counter++;
+                    }
+                    int auxPos = (auxSize.length)*(counter-1);
+                    auxSize[i-(auxPos)] = bodyBytes[i];
+                }
+                break;
+
+            default:
+                throw new IllegalStateException("Unexpected value: " + attributeToModify);
         }
         return newBodySize;
     }
@@ -174,7 +197,9 @@ public class BitMap {
         byte[] newHeader = newHeader(widthValue, 2);
         System.out.println(Arrays.toString(headerBytes));
         System.out.println(Arrays.toString(newHeader));
-        byte[] newBody = newBody(widthValue, 1);
+        byte[] newBody = newBody(widthValue, 2);
+        System.out.println(bodyBytes.length);
+        System.out.println(newBody.length);
 
         byte[] newFileBytes = new byte[newHeader.length+newBody.length];
         for (int totalSize = 0, i = 0; totalSize < newFileBytes.length; totalSize++, i++) {
