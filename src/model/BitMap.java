@@ -12,7 +12,7 @@ public class BitMap {
 
     public BitMap(String source) throws IOException {
         FileInputStream file = new FileInputStream(source);
-        fileOut = new FileOutputStream("Copia" + source);
+        fileOut = new FileOutputStream("Copia1" + source);
         headerBytes = new byte[54];
         headerInfo = new int[16];
         file.read(headerBytes);
@@ -177,10 +177,37 @@ public class BitMap {
                 break;
             case 2:
                 newBodySize = new byte[newValue * headerInfo[7] * 3];
-                int rest = headerInfo[6] - newValue;
+                int valueToCut = headerInfo[6] - newValue;
                 for (int i = 0, j = 0; j < newBodySize.length; i++, j++) {
                     if (j != 0 && (j % (newValue * 3) == 0)) {
-                        i = i + (rest) * 3;
+                        i = i + (valueToCut) * 3;
+                    }
+                    newBodySize[j] = bodyBytes[i];
+                }
+                break;
+
+            default:
+                throw new IllegalStateException("Unexpected value: " + attributeToModify);
+        }
+        return newBodySize;
+    }
+
+    public byte[] newBody(int initialPos, int finalPos, int attributeToModify) {
+        int newValue = finalPos-initialPos;
+        byte[] newBodySize;
+        switch (attributeToModify) {
+            case 1:
+                newBodySize = new byte[newValue * headerInfo[6] * 3];
+                for (int i = 0, j = initialPos*3; i < newBodySize.length; i++, j++) {
+                    newBodySize[i] = bodyBytes[j];
+                }
+                break;
+            case 2:
+                newBodySize = new byte[newValue * headerInfo[7] * 3];
+                int valueToCut = headerInfo[6] - newValue;
+                for (int i = initialPos, j = 0; j < newBodySize.length; i++, j++) {
+                    if (j != 0 && (j % (newValue * 3) == 0)) {
+                        i = i + (valueToCut) * 3;
                     }
                     newBodySize[j] = bodyBytes[i];
                 }
@@ -195,7 +222,17 @@ public class BitMap {
     public void createNewImage(int newValue, int attributeToModify) throws IOException {
         byte[] newHeader = newHeader(newValue, attributeToModify);
         byte[] newBody = newBody(newValue, attributeToModify);
+        setNewValues(newHeader, newBody);
+    }
 
+    public void createNewImage(int initialPos, int finalPos, int attributeToModify) throws IOException {
+        int newValue = finalPos - initialPos;
+        byte[] newHeader = newHeader(newValue, attributeToModify);
+        byte[] newBody = newBody(initialPos, finalPos, attributeToModify);
+        setNewValues(newHeader, newBody);
+    }
+
+    public void setNewValues(byte[] newHeader, byte[] newBody) throws IOException {
         byte[] newFileBytes = new byte[newHeader.length + newBody.length];
         for (int totalSize = 0, i = 0; totalSize < newFileBytes.length; totalSize++, i++) {
             if (totalSize < newHeader.length) {
@@ -206,9 +243,5 @@ public class BitMap {
         }
         fileOut.write(newFileBytes);
         fileOut.close();
-    }
-
-    public byte[] getHeaderBytes() {
-        return headerBytes;
     }
 }

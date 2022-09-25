@@ -21,7 +21,7 @@ public class Presenter {
 
     public void run(){
         try {
-            printHeaderInfo(bitmap.readBitmap());
+            //printHeaderInfo(bitmap.readBitmap());
             principalMenu();
         } catch (IOException e) {
             view.showMessage(e.getMessage());
@@ -30,12 +30,37 @@ public class Presenter {
 
     public void principalMenu() throws IOException {
         int[] headerInfo = bitmap.getHeaderInfo();
-        switch (view.readInt("Bienvenido, elige la opcion\n1. Modificar el ancho de la imagen\n2 Modificar el alto de la imagen")){
-            case 1:bitmap.createNewImage(view.readInt("Ancho actual de la imagen en pixeles: " + headerInfo[6] + "\nIngresa el nuevo valor del ancho de la imagen"), 2);
+        int option;
+        switch (view.readInt("Bienvenido, elige la opcion\n1. Modificar el alto de la imagen\n2. Modificar el ancho de la imagen")){
+            case 1:
+                option = highMenu();
+                if (option==1) {
+                    bitmap.createNewImage(view.readInt("Alto actual de la imagen en pixeles: " + headerInfo[7] + "\nIngresa el nuevo valor del alto de la imagen"), 1);
+                } else if (option==2) {
+                    bitmap.createNewImage(view.readInt("Alto actual de la imagen en pixeles: " + headerInfo[7] + "\nIngresa el pixel de inicio de la imagen"), view.readInt("Alto actual de la imagen en pixeles: " + headerInfo[7] + "\nIngresa el pixel de finalizacion de la imagen"), 1);
+                }else {
+                    view.showMessage("Elegiste una opcion invalida");
+                }
                 break;
-            case 2:bitmap.createNewImage(view.readInt("Alto actual de la imagen en pixeles: " + headerInfo[7] + "\nIngresa el nuevo valor del alto de la imagen"), 1);
+            case 2:
+                option = widthMenu();
+                if (option==1) {
+                    bitmap.createNewImage(view.readInt("Ancho actual de la imagen en pixeles: " + headerInfo[6] + "\nIngresa el nuevo valor del ancho de la imagen"), 2);
+                } else if (option==2) {
+                    bitmap.createNewImage(view.readInt("Ancho actual de la imagen en pixeles: " + headerInfo[6] + "\nIngresa el pixel de inicio de la imagen"), view.readInt("Ancho actual de la imagen en pixeles: " + headerInfo[6] + "\nIngresa el pixel de finalizacion de la imagen"), 2);
+                }else {
+                    view.showMessage("Elegiste una opcion invalida");
+                }
                 break;
         }
+    }
+
+    private int widthMenu() {
+        return view.readInt("Elige la opcion del nuevo ancho\n1. Para declarar el nuevo valor del ancho\n2. Para colocar el pixel de inicio y el pixel final");
+    }
+
+    public int highMenu(){
+        return view.readInt("Elige la opcion del nuevo alto\n1. Para declarar el nuevo valor del alto\n2. Para colocar el pixel de inicio y el pixel final");
     }
 
     public void printHeaderInfo(int[] headerInfo) {
