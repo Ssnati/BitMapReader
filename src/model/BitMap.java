@@ -1,5 +1,7 @@
 package model;
 
+import presenter.Presenter;
+
 import java.io.*;
 import java.util.Arrays;
 
@@ -180,7 +182,7 @@ public class BitMap {
                 int valueToCut = headerInfo[6] - newValue;
                 for (int i = 0, j = 0; j < newBodySize.length; i++, j++) {
                     if (j != 0 && (j % (newValue * 3) == 0)) {
-                        i = i + (valueToCut) * 3;
+                        i = i + ((valueToCut) * 3);
                     }
                     newBodySize[j] = bodyBytes[i];
                 }
@@ -193,23 +195,30 @@ public class BitMap {
     }
 
     public byte[] newBody(int initialPos, int finalPos, int attributeToModify) {
-        int newValue = finalPos-initialPos;
+        int newValue = finalPos - initialPos;
+        byte[] bodyBytesReverse = reverseArray(bodyBytes);
         byte[] newBodySize;
         switch (attributeToModify) {
             case 1:
                 newBodySize = new byte[newValue * headerInfo[6] * 3];
-                for (int i = 0, j = initialPos*3; i < newBodySize.length; i++, j++) {
+                for (int i = 0, j = initialPos * headerInfo[6] * 3; i < newBodySize.length; i++, j++) {
                     newBodySize[i] = bodyBytes[j];
                 }
                 break;
             case 2:
                 newBodySize = new byte[newValue * headerInfo[7] * 3];
-                int valueToCut = headerInfo[6] - newValue;
-                for (int i = initialPos, j = 0; j < newBodySize.length; i++, j++) {
+                for (int i = 0, j = 0; j < newBodySize.length; i++, j++) {
                     if (j != 0 && (j % (newValue * 3) == 0)) {
-                        i = i + (valueToCut) * 3;
+                        i = i + ((headerInfo[6]-finalPos) * 3);
                     }
                     newBodySize[j] = bodyBytes[i];
+                    if (i == 0){
+                        i = i + (initialPos * 3);
+                        newBodySize[j] = bodyBytes[i];
+                    }
+                    if (i % (headerInfo[6] * 3) == 0){
+                        i = i + (initialPos * 3);
+                    }
                 }
                 break;
 
@@ -217,6 +226,11 @@ public class BitMap {
                 throw new IllegalStateException("Unexpected value: " + attributeToModify);
         }
         return newBodySize;
+    }
+
+    private byte[] reverseArray(byte[] bodyBytes) {
+        byte[] bytes = new byte[0];
+        return bytes;
     }
 
     public void createNewImage(int newValue, int attributeToModify) throws IOException {
