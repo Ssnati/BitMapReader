@@ -1,7 +1,5 @@
 package model;
 
-import presenter.Presenter;
-
 import java.io.*;
 import java.util.Arrays;
 
@@ -10,10 +8,10 @@ public class BitMap {
     private int[] headerInfo;
     private byte[] bodyBytes;
     private FileOutputStream fileOut;
-    private Pixel[] pixelsValue;
+    private FileInputStream file;
 
     public BitMap(String source) throws IOException {
-        FileInputStream file = new FileInputStream(source);
+        file = new FileInputStream(source);
         fileOut = new FileOutputStream("Copia1" + source);
         headerBytes = new byte[54];
         headerInfo = new int[16];
@@ -21,8 +19,6 @@ public class BitMap {
         int[] tempInfo = readBitmap();
         bodyBytes = new byte[tempInfo[6] * tempInfo[7] * 3];
         file.read(bodyBytes);
-        pixelsValue = new Pixel[bodyBytes.length / 3];
-        pixelsValue = readPixelsImage(bodyBytes);
         file.close();
     }
 
@@ -30,18 +26,8 @@ public class BitMap {
         return headerInfo;
     }
 
-    private Pixel[] readPixelsImage(byte[] bodyBytes) {
-        Pixel[] rgbPixels = new Pixel[bodyBytes.length / 3];
-        for (int i = 0; i < rgbPixels.length; i++) {
-            int blue = unsignedToBytes(bodyBytes[i * 3]);
-            int green = unsignedToBytes(bodyBytes[(i * 3) + 1]);
-            int red = unsignedToBytes(bodyBytes[(i * 3) + 2]);
-            pixelsValue[i] = new Pixel(red, green, blue);
-        }
-        return rgbPixels;
-    }
 
-    public int[] readBitmap() throws IOException {
+    public int[] readBitmap() {
         int[] headerInt = byteArrayToIntArray(headerBytes);
         int[] bfTypeBytes = cutArray(headerInt, 0, 1);
         headerInfo[0] = getRealValue(bfTypeBytes);
@@ -113,6 +99,15 @@ public class BitMap {
         return default1;
     }
 
+    public int[] decimalToByte(int newValue) {
+        int[] newBytes = new int[4];
+        for (int i = 0; i < newBytes.length; i++) {
+            newBytes[i] = newValue % 256;
+            newValue /= 256;
+        }
+        return newBytes;
+    }
+
     public byte[] newHeader(int newValue, int attributeToModify) {
         byte[] newHeaderBytes = Arrays.copyOf(headerBytes, headerBytes.length);
         int[] pictureSize;
@@ -132,12 +127,11 @@ public class BitMap {
                 break;
             case 2:
                 pictureLength = newValue * headerInfo[7] * 3;
-
-                int[] widthSize = decimalToByte(newValue);//Altura de la imagen 18 - 21
+                int[] widthSize = decimalToByte(newValue);//Ancho de la imagen 18 - 21
                 pictureSize = decimalToByte(pictureLength);
-                fileSize = decimalToByte(pictureLength + 54);
+                fileSize = decimalToByte((pictureLength + 54));
 
-                //Metodo para dar nuevo tamaño de altura
+                //Metodo para dar nuevo tamaño de ancho
                 for (int i = 18, pos = 0; i < 21; i++, pos++) {
                     newHeaderBytes[i] = (byte) widthSize[pos];
                 }
@@ -159,16 +153,7 @@ public class BitMap {
         return newHeaderBytes;
     }
 
-    public int[] decimalToByte(int newValue) {
-        int[] newValues = new int[4];
-        for (int i = 0; i < newValues.length; i++) {
-            newValues[i] = newValue % 256;
-            newValue /= 256;
-        }
-        return newValues;
-    }
-
-    public byte[] newBody(int newValue, int attributeToModify) {
+    public void newBody(int newValue, int attributeToModify) throws IOException {
         byte[] newBodySize;
         switch (attributeToModify) {
             case 1:
@@ -187,16 +172,14 @@ public class BitMap {
                     newBodySize[j] = bodyBytes[i];
                 }
                 break;
-
             default:
                 throw new IllegalStateException("Unexpected value: " + attributeToModify);
         }
-        return newBodySize;
+        fileOut.write(newBodySize);
     }
 
-    public byte[] newBody(int initialPos, int finalPos, int attributeToModify) {
+    public void newBody(int initialPos, int finalPos, int attributeToModify) throws IOException {
         int newValue = finalPos - initialPos;
-        byte[] bodyBytesReverse = reverseArray(bodyBytes);
         byte[] newBodySize;
         switch (attributeToModify) {
             case 1:
@@ -204,58 +187,60 @@ public class BitMap {
                 for (int i = 0, j = initialPos * headerInfo[6] * 3; i < newBodySize.length; i++, j++) {
                     newBodySize[i] = bodyBytes[j];
                 }
+                fileOut.write(newBodySize);
                 break;
             case 2:
-                newBodySize = new byte[newValue * headerInfo[7] * 3];
-                for (int i = 0, j = 0; j < newBodySize.length; i++, j++) {
-                    if (j != 0 && (j % (newValue * 3) == 0)) {
-                        i = i + ((headerInfo[6]-finalPos) * 3);
-                    }
-                    newBodySize[j] = bodyBytes[i];
-                    if (i == 0){
-                        i = i + (initialPos * 3);
-                        newBodySize[j] = bodyBytes[i];
-                    }
-                    if (i % (headerInfo[6] * 3) == 0){
-                        i = i + (initialPos * 3);
-                    }
+                byte[] auxBody = new byte[newValue*3];
+                byte[] auxHeader = new byte[54];
+                FileInputStream fileInAux = new FileInputStream("image.bmp");
+                fileInAux.read(auxHeader);
+                for (int i = 0; i < headerInfo[7]; i++) {
+                    fileInAux.skip(initialPos * 3);
+                    fileInAux.read(auxBody);
+                    fileInAux.skip((headerInfo[6] - finalPos) * 3);
+                    fileOut.write(auxBody);
                 }
+                fileInAux.close();
                 break;
 
             default:
                 throw new IllegalStateException("Unexpected value: " + attributeToModify);
         }
-        return newBodySize;
     }
 
-    private byte[] reverseArray(byte[] bodyBytes) {
-        byte[] bytes = new byte[0];
-        return bytes;
-    }
 
     public void createNewImage(int newValue, int attributeToModify) throws IOException {
         byte[] newHeader = newHeader(newValue, attributeToModify);
-        byte[] newBody = newBody(newValue, attributeToModify);
-        setNewValues(newHeader, newBody);
+        fileOut.write(newHeader);
+        newBody(newValue, attributeToModify);
+        fileOut.close();
     }
 
     public void createNewImage(int initialPos, int finalPos, int attributeToModify) throws IOException {
-        int newValue = finalPos - initialPos;
-        byte[] newHeader = newHeader(newValue, attributeToModify);
-        byte[] newBody = newBody(initialPos, finalPos, attributeToModify);
-        setNewValues(newHeader, newBody);
+        byte[] newHeader = newHeader(finalPos - initialPos, attributeToModify);
+        fileOut.write(newHeader);
+        newBody(initialPos, finalPos, attributeToModify);
+        fileOut.close();
     }
 
-    public void setNewValues(byte[] newHeader, byte[] newBody) throws IOException {
-        byte[] newFileBytes = new byte[newHeader.length + newBody.length];
-        for (int totalSize = 0, i = 0; totalSize < newFileBytes.length; totalSize++, i++) {
-            if (totalSize < newHeader.length) {
-                newFileBytes[totalSize] = newHeader[i];
-            } else {
-                newFileBytes[totalSize] = newBody[i - newHeader.length];
-            }
-        }
-        fileOut.write(newFileBytes);
-        fileOut.close();
+    public static void main(String[] args) throws IOException {
+        BitMap bitmap = new BitMap("image.bmp");
+        int initialPos = 102;
+        int finalPos = 700;
+        bitmap.createNewImage(initialPos, finalPos, 2);
+        System.out.println("Imagen original");
+        System.out.println(Arrays.toString(bitmap.headerBytes));
+        System.out.print(bitmap.headerInfo[1] + " ");
+        System.out.print(bitmap.headerInfo[6] + " ");
+        System.out.print(bitmap.headerInfo[7] + " ");
+        System.out.println(bitmap.headerInfo[11] + " ");
+        System.out.println("Imagen modificada");
+        byte[] newHeader = bitmap.newHeader(finalPos-initialPos, 2);
+        System.out.println(Arrays.toString(newHeader));
+
+        System.out.print(bitmap.getRealValue(bitmap.cutArray(bitmap.byteArrayToIntArray(newHeader), 2, 5)) + " ");
+        System.out.print(bitmap.getRealValue(bitmap.cutArray(bitmap.byteArrayToIntArray(newHeader), 18, 21)) + " ");
+        System.out.print(bitmap.getRealValue(bitmap.cutArray(bitmap.byteArrayToIntArray(newHeader), 22, 25)) + " ");
+        System.out.print(bitmap.getRealValue(bitmap.cutArray(bitmap.byteArrayToIntArray(newHeader), 34, 37)) + " ");
     }
 }

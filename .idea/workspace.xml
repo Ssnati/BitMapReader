@@ -5,6 +5,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Copia1image.bmp" beforeDir="false" afterPath="$PROJECT_DIR$/Copia1image.bmp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/BitMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/BitMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Pixel.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,7 +115,10 @@
       <workItem from="1663957741518" duration="1223000" />
       <workItem from="1663959176233" duration="4147000" />
       <workItem from="1664082787032" duration="3425000" />
-      <workItem from="1664133479937" duration="18956000" />
+      <workItem from="1664133479937" duration="19615000" />
+      <workItem from="1664168214319" duration="3692000" />
+      <workItem from="1664255801897" duration="624000" />
+      <workItem from="1664256490519" duration="9005000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;Actualizacion del proyecto, Java 18(Creo)&quot;">
       <created>1663522591567</created>
@@ -183,21 +187,6 @@
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="2" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/model/BitMap.java</url>
-          <line>211</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/model/BitMap.java</url>
-          <line>219</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/model/BitMap.java</url>
-          <line>215</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
